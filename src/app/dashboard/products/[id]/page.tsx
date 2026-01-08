@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -17,8 +17,9 @@ interface UploadedImage {
   publicId: string;
 }
 
-export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = use(params);
+export default function EditProductPage() {
+  const params = useParams();
+  const id = params.id as string;
   const router = useRouter();
   const queryClient = useQueryClient();
   const [images, setImages] = useState<UploadedImage[]>([]);
@@ -26,9 +27,9 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const [error, setError] = useState('');
 
   const { data, isLoading } = useQuery({
-    queryKey: ['product', resolvedParams.id],
+    queryKey: ['product', id],
     queryFn: async () => {
-      const res = await fetch(`/api/products/${resolvedParams.id}`);
+      const res = await fetch(`/api/products/${id}`);
       if (!res.ok) throw new Error('Failed to fetch product');
       return res.json();
     },
@@ -60,7 +61,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
   const updateMutation = useMutation({
     mutationFn: async (formData: ProductInput) => {
-      const res = await fetch(`/api/products/${resolvedParams.id}`, {
+      const res = await fetch(`/api/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, images }),
@@ -73,7 +74,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      queryClient.invalidateQueries({ queryKey: ['product', resolvedParams.id] });
+      queryClient.invalidateQueries({ queryKey: ['product', id] });
       router.push('/dashboard/products');
     },
     onError: (err: any) => {

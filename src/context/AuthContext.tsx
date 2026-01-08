@@ -59,7 +59,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const data = await response.json();
     setUser(data.user);
-    router.push('/dashboard');
+    
+    // Use window.location for reliable redirect after cookie is set
+    window.location.href = '/dashboard';
   };
 
   const logout = async () => {

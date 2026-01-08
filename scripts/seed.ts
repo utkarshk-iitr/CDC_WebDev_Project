@@ -22,7 +22,8 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   category: { type: String, required: true },
   stock: { type: Number, required: true, default: 0 },
-  images: [{ type: String }],
+  sku: { type: String, required: true, unique: true },
+  images: [{ url: String, publicId: String }],
   status: { type: String, enum: ['active', 'inactive', 'draft'], default: 'draft' },
   sales: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
@@ -86,11 +87,12 @@ async function seed() {
         price: Math.floor(Math.random() * 500) + 10,
         category: categories[Math.floor(Math.random() * categories.length)],
         stock: Math.floor(Math.random() * 100),
+        sku: `PROD-${String(i).padStart(4, '0')}`,
         status: statuses[Math.floor(Math.random() * statuses.length)],
         sales: Math.floor(Math.random() * 200),
         images: [
-          `https://picsum.photos/seed/${i}/400/400`,
-          `https://picsum.photos/seed/${i + 100}/400/400`,
+          { url: `https://picsum.photos/seed/${i}/400/400`, publicId: `seed-${i}` },
+          { url: `https://picsum.photos/seed/${i + 100}/400/400`, publicId: `seed-${i + 100}` },
         ],
       });
     }

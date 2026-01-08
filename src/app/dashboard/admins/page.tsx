@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/context/AuthContext';
 import { registerAdminSchema, RegisterAdminInput } from '@/lib/validations';
-import { UserPlus, Users, Shield, ShieldCheck, Loader2, X } from 'lucide-react';
+import { UserPlus, Users, Shield, ShieldCheck, Loader2, X, Trash2 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
 interface Admin {
@@ -21,6 +21,7 @@ export default function AdminsPage() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [showModal, setShowModal] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [error, setError] = useState('');
 
   const { data, isLoading } = useQuery<{ admins: Admin[] }>({
@@ -71,6 +72,25 @@ export default function AdminsPage() {
   const onSubmit = (data: RegisterAdminInput) => {
     createMutation.mutate(data);
   };
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/auth/admin/${id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Failed to delete admin');
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admins'] });
+      setDeleteId(null);
+    },
+    onError: (err: any) => {
+      setError(err.message);
+      setDeleteId(null);
+    },
+  });
 
   if (user?.role !== 'superadmin') {
     return (
@@ -125,6 +145,9 @@ export default function AdminsPage() {
                   <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
                     Created
                   </th>
+                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y">
@@ -159,6 +182,17 @@ export default function AdminsPage() {
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-600">
                       {formatDate(admin.createdAt)}
+                    </td>
+                    <td className="px-6 py-4">
+                      {admin._id !== user?.id && (
+                        <button
+                          onClick={() => setDeleteId(admin._id)}
+                          className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete admin"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -277,6 +311,42 @@ export default function AdminsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold text-gray-900">Delete Admin</h3>
+            <p className="text-gray-600 mt-2">
+              Are you sure you want to delete this admin? This action cannot be undone.
+            </p>
+            {error && (
+              <div className="mt-3 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => {
+                  setDeleteId(null);
+                  setError('');
+                }}
+                className="btn-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => deleteMutation.mutate(deleteId)}
+                disabled={deleteMutation.isPending}
+                className="btn-danger flex items-center gap-2"
+              >
+                {deleteMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

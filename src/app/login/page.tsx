@@ -24,8 +24,11 @@ export default function LoginPage() {
     try {
       setIsLoading(true);
       setError('');
+      console.log('Attempting login with:', data.email);
       await login(data.email, data.password);
+      console.log('Login successful');
     } catch (err: any) {
+      console.error('Login error:', err);
       setError(err.message || 'Login failed');
     } finally {
       setIsLoading(false);
@@ -50,7 +53,7 @@ export default function LoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" method="post" action="#">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
