@@ -70,20 +70,20 @@ function StatCard({
   color?: 'primary' | 'success' | 'warning' | 'danger';
 }) {
   const colorClasses = {
-    primary: 'bg-primary-50 text-primary-600',
-    success: 'bg-green-50 text-green-600',
-    warning: 'bg-amber-50 text-amber-600',
-    danger: 'bg-red-50 text-red-600',
+    primary: 'bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400',
+    success: 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-400',
+    warning: 'bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400',
+    danger: 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400',
   };
 
   return (
     <div className="card">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-gray-500">{title}</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{title}</p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{value}</p>
           {trend && (
-            <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
+            <p className="text-sm text-green-600 dark:text-green-400 mt-2 flex items-center gap-1">
               <TrendingUp className="w-4 h-4" />
               {trend}
             </p>
@@ -126,8 +126,8 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Welcome back! Here&apos;s an overview of your store.</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Welcome back! Here&apos;s an overview of your store.</p>
       </div>
 
       {/* Stats Grid */}
@@ -162,15 +162,15 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Sales Chart */}
         <div className="card">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Sales</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Sales</h3>
           <div className="h-72">
             {stats.monthlySales.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={stats.monthlySales}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
+                  <CartesianGrid strokeDasharray="3 3" className="dark:stroke-gray-600" />
+                  <XAxis dataKey="month" className="dark:fill-gray-300" />
+                  <YAxis className="dark:fill-gray-300" />
+                  <Tooltip contentStyle={{ backgroundColor: 'var(--tooltip-bg, #fff)', borderColor: 'var(--tooltip-border, #e5e7eb)' }} />
                   <Legend />
                   <Line
                     type="monotone"
@@ -189,7 +189,7 @@ export default function DashboardPage() {
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex items-center justify-center h-full text-gray-500">
+              <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
                 <p>No sales data available</p>
               </div>
             )}
@@ -198,7 +198,7 @@ export default function DashboardPage() {
 
         {/* Category Distribution */}
         <div className="card">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Products by Category</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Products by Category</h3>
           <div className="h-72">
             {stats.categoryStats.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
@@ -220,7 +220,7 @@ export default function DashboardPage() {
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex items-center justify-center h-full text-gray-500">
+              <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
                 <p>No category data available</p>
               </div>
             )}
@@ -230,20 +230,20 @@ export default function DashboardPage() {
 
       {/* Stock by Category Bar Chart */}
       <div className="card">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Stock Levels by Category</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Stock Levels by Category</h3>
         <div className="h-72">
           {stats.categoryStats.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={stats.categoryStats}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="_id" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" className="dark:stroke-gray-600" />
+                <XAxis dataKey="_id" className="dark:fill-gray-300" />
+                <YAxis className="dark:fill-gray-300" />
                 <Tooltip />
                 <Bar dataKey="totalStock" fill="#3b82f6" name="Stock" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-full text-gray-500">
+            <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
               <p>No stock data available</p>
             </div>
           )}
@@ -255,10 +255,10 @@ export default function DashboardPage() {
         {/* Recent Products */}
         <div className="card">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Recent Products</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Products</h3>
             <Link
               href="/dashboard/products"
-              className="text-sm text-primary-600 hover:text-primary-700"
+              className="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
             >
               View all →
             </Link>
@@ -268,23 +268,23 @@ export default function DashboardPage() {
               stats.recentProducts.map((product) => (
                 <div
                   key={product._id}
-                  className="flex items-center justify-between py-2 border-b last:border-0"
+                  className="flex items-center justify-between py-2 border-b dark:border-gray-700 last:border-0"
                 >
                   <div>
-                    <p className="font-medium text-gray-900">{product.name}</p>
-                    <p className="text-sm text-gray-500">Stock: {product.stock}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{product.name}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Stock: {product.stock}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium text-gray-900">
+                    <p className="font-medium text-gray-900 dark:text-white">
                       {formatCurrency(product.price)}
                     </p>
                     <span
                       className={`text-xs px-2 py-1 rounded-full ${
                         product.status === 'active'
-                          ? 'bg-green-100 text-green-700'
+                          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
                           : product.status === 'inactive'
-                          ? 'bg-red-100 text-red-700'
-                          : 'bg-gray-100 text-gray-700'
+                          ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                          : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
                       }`}
                     >
                       {product.status}
@@ -293,7 +293,7 @@ export default function DashboardPage() {
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-500 py-4">No products yet</p>
+              <p className="text-center text-gray-500 dark:text-gray-400 py-4">No products yet</p>
             )}
           </div>
         </div>
@@ -301,7 +301,7 @@ export default function DashboardPage() {
         {/* Top Selling Products */}
         <div className="card">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Top Selling Products</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Top Selling Products</h3>
             <BarChart3 className="w-5 h-5 text-gray-400" />
           </div>
           <div className="space-y-3">
@@ -309,24 +309,24 @@ export default function DashboardPage() {
               stats.topSellingProducts.map((product, index) => (
                 <div
                   key={product._id}
-                  className="flex items-center justify-between py-2 border-b last:border-0"
+                  className="flex items-center justify-between py-2 border-b dark:border-gray-700 last:border-0"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="w-6 h-6 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center text-sm font-medium">
+                    <span className="w-6 h-6 bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 rounded-full flex items-center justify-center text-sm font-medium">
                       {index + 1}
                     </span>
-                    <p className="font-medium text-gray-900">{product.name}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{product.name}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium text-gray-900">{product.sales} sold</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="font-medium text-gray-900 dark:text-white">{product.sales} sold</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {formatCurrency(product.sales * product.price)}
                     </p>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-500 py-4">No sales data yet</p>
+              <p className="text-center text-gray-500 dark:text-gray-400 py-4">No sales data yet</p>
             )}
           </div>
         </div>

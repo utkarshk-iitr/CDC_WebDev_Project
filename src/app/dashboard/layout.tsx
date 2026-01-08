@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface NavItem {
   label: string;
@@ -42,7 +43,7 @@ export default function DashboardLayout({
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     );
@@ -53,7 +54,7 @@ export default function DashboardLayout({
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div
@@ -65,20 +66,20 @@ export default function DashboardLayout({
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed top-0 left-0 z-50 h-full w-64 bg-white shadow-lg transform transition-transform duration-200 lg:translate-x-0',
+          'fixed top-0 left-0 z-50 h-full w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 lg:translate-x-0',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        <div className="flex items-center justify-between p-4 border-b">
+        <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
           <div className="flex items-center gap-2">
             <Package className="w-8 h-8 text-primary-600" />
-            <span className="font-bold text-lg">E-Commerce</span>
+            <span className="font-bold text-lg dark:text-white">E-Commerce</span>
           </div>
           <button
-            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
+            className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
             onClick={() => setSidebarOpen(false)}
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 dark:text-gray-300" />
           </button>
         </div>
 
@@ -90,8 +91,8 @@ export default function DashboardLayout({
               className={cn(
                 'flex items-center gap-3 px-4 py-3 rounded-lg transition-colors',
                 pathname === item.href
-                  ? 'bg-primary-50 text-primary-700'
-                  : 'text-gray-600 hover:bg-gray-100'
+                  ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
+                  : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
               )}
               onClick={() => setSidebarOpen(false)}
             >
@@ -105,33 +106,36 @@ export default function DashboardLayout({
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Header */}
-        <header className="bg-white shadow-sm border-b sticky top-0 z-30">
+        <header className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700 sticky top-0 z-30 transition-colors">
           <div className="flex items-center justify-between px-4 py-3">
             <button
-              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
+              className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
               onClick={() => setSidebarOpen(true)}
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-6 h-6 dark:text-gray-300" />
             </button>
 
             <div className="flex-1" />
 
+            {/* Theme toggle */}
+            <ThemeToggle />
+
             {/* User menu */}
             <div className="relative">
               <button
-                className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg"
+                className="flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
               >
-                <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
-                  <span className="text-primary-700 font-medium text-sm">
+                <div className="w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center">
+                  <span className="text-primary-700 dark:text-primary-400 font-medium text-sm">
                     {user?.name?.charAt(0).toUpperCase()}
                   </span>
                 </div>
                 <div className="hidden sm:block text-left">
-                  <p className="text-sm font-medium text-gray-700">{user?.name}</p>
-                  <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{user?.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{user?.role}</p>
                 </div>
-                <ChevronDown className="w-4 h-4 text-gray-500" />
+                <ChevronDown className="w-4 h-4 text-gray-500 dark:text-gray-400" />
               </button>
 
               {userMenuOpen && (
@@ -140,14 +144,14 @@ export default function DashboardLayout({
                     className="fixed inset-0 z-40"
                     onClick={() => setUserMenuOpen(false)}
                   />
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
-                    <div className="p-3 border-b">
-                      <p className="text-sm font-medium text-gray-700">{user?.name}</p>
-                      <p className="text-xs text-gray-500">{user?.email}</p>
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border dark:border-gray-700 z-50">
+                    <div className="p-3 border-b dark:border-gray-700">
+                      <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{user?.name}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
                     </div>
                     <button
                       onClick={logout}
-                      className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50"
+                      className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
                     >
                       <LogOut className="w-4 h-4" />
                       Sign out
@@ -160,7 +164,7 @@ export default function DashboardLayout({
         </header>
 
         {/* Page content */}
-        <main className="p-4 lg:p-6">{children}</main>
+        <main className="p-4 lg:p-6 dark:text-gray-100">{children}</main>
       </div>
     </div>
   );

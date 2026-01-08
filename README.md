@@ -202,26 +202,6 @@ The main dashboard displays:
 MONGODB_URI=your-production-mongodb-uri npm run seed
 ```
 
-### Deploy to Other Platforms
-
-#### Netlify
-```bash
-npm run build
-# Deploy the .next folder
-```
-
-#### Docker
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
 ## 📁 Project Structure
 
 ```
@@ -293,62 +273,9 @@ ssr-ecommerce-dashboard/
 - Input validation with Zod
 - CSRF protection via SameSite cookies
 
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**MongoDB Connection Error**
-```
-Error: MongoServerError: bad auth
-```
-Solution: Check your MongoDB URI credentials and ensure the IP is whitelisted.
-
-**Cloudinary Upload Fails**
-```
-Error: Upload failed
-```
-Solution: Verify your Cloudinary credentials and check API key permissions.
-
-**JWT Token Invalid**
-```
-Error: Invalid token
-```
-Solution: Ensure JWT_SECRET is the same in development and production.
-
-## 📄 API Documentation
-
-### Authentication
-- `POST /api/auth/login` - Login
-- `POST /api/auth/logout` - Logout
-- `GET /api/auth/me` - Get current user
-- `POST /api/auth/register` - Register new admin (Super Admin only)
-
-### Products
-- `GET /api/products` - List products (with pagination, search, filters)
-- `POST /api/products` - Create product
-- `GET /api/products/:id` - Get product by ID
-- `PUT /api/products/:id` - Update product
-- `DELETE /api/products/:id` - Delete product
-
-### Dashboard
-- `GET /api/dashboard` - Get dashboard statistics
-
-### Upload
-- `POST /api/upload` - Upload image to Cloudinary
-
-## 🎥 Demo Video
-
-[Watch Demo Video](https://drive.google.com/your-demo-video-link)
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
 ## 👤 Author
 
-**Utk Kumar**
-- GitHub: [@your-username](https://github.com/your-username)
+**Utkarsh Kumar**
+- GitHub: [@utkarshk-iitr](https://github.com/utkarshk-iitr)
 
 ---
-
-Made with ❤️ for CDC WebDev Project

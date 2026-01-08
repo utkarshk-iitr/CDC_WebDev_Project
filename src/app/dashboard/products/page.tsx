@@ -88,8 +88,8 @@ export default function ProductsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-          <p className="text-gray-500 mt-1">Manage your product inventory</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Products</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your product inventory</p>
         </div>
         <Link href="/dashboard/products/new" className="btn-primary flex items-center gap-2 w-fit">
           <Plus className="w-5 h-5" />
@@ -168,31 +168,31 @@ export default function ProductsPage() {
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b">
+                <thead className="bg-gray-50 dark:bg-gray-800/50 border-b dark:border-gray-700">
                   <tr>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                       Product
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                       Category
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                       Price
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                       Stock
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                       Status
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y">
+                <tbody className="divide-y dark:divide-gray-700">
                   {data?.products.map((product) => (
-                    <tr key={product._id} className="hover:bg-gray-50">
+                    <tr key={product._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           {product.images[0] ? (
@@ -204,18 +204,18 @@ export default function ProductsPage() {
                               className="w-12 h-12 object-cover rounded-lg"
                             />
                           ) : (
-                            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                            <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
                               <Package className="w-6 h-6 text-gray-400" />
                             </div>
                           )}
                           <div>
-                            <p className="font-medium text-gray-900">{product.name}</p>
-                            <p className="text-sm text-gray-500">SKU: {product.sku}</p>
+                            <p className="font-medium text-gray-900 dark:text-white">{product.name}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">SKU: {product.sku}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{product.category}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{product.category}</td>
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                         {formatCurrency(product.price)}
                       </td>
                       <td className="px-6 py-4">
@@ -235,10 +235,10 @@ export default function ProductsPage() {
                         <span
                           className={`px-2 py-1 text-xs font-medium rounded-full ${
                             product.status === 'active'
-                              ? 'bg-green-100 text-green-700'
+                              ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'
                               : product.status === 'inactive'
-                              ? 'bg-red-100 text-red-700'
-                              : 'bg-gray-100 text-gray-700'
+                              ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300'
+                              : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
                           }`}
                         >
                           {product.status}
@@ -248,13 +248,13 @@ export default function ProductsPage() {
                         <div className="flex items-center gap-2">
                           <Link
                             href={`/dashboard/products/${product._id}`}
-                            className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg"
+                            className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg"
                           >
                             <Edit className="w-4 h-4" />
                           </Link>
                           <button
                             onClick={() => setDeleteId(product._id)}
-                            className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                            className="p-2 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -268,8 +268,8 @@ export default function ProductsPage() {
 
             {/* Pagination */}
             {data && data.pagination.totalPages > 1 && (
-              <div className="flex items-center justify-between px-6 py-4 border-t">
-                <p className="text-sm text-gray-500">
+              <div className="flex items-center justify-between px-6 py-4 border-t dark:border-gray-700">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Showing {(page - 1) * 10 + 1} to{' '}
                   {Math.min(page * 10, data.pagination.total)} of {data.pagination.total} products
                 </p>
@@ -277,17 +277,17 @@ export default function ProductsPage() {
                   <button
                     onClick={() => setPage(page - 1)}
                     disabled={page === 1}
-                    className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg disabled:opacity-50"
+                    className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg disabled:opacity-50"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600 dark:text-gray-300">
                     Page {page} of {data.pagination.totalPages}
                   </span>
                   <button
                     onClick={() => setPage(page + 1)}
                     disabled={page === data.pagination.totalPages}
-                    className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg disabled:opacity-50"
+                    className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg disabled:opacity-50"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </button>
@@ -301,9 +301,9 @@ export default function ProductsPage() {
       {/* Delete Modal */}
       {deleteId && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold text-gray-900">Delete Product</h3>
-            <p className="text-gray-600 mt-2">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Delete Product</h3>
+            <p className="text-gray-600 dark:text-gray-300 mt-2">
               Are you sure you want to delete this product? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-3 mt-6">
