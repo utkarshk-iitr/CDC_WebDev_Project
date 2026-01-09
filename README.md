@@ -178,29 +178,7 @@ The main dashboard displays:
 
 ## 🌐 Deployment
 
-### Deploy to Vercel (Recommended)
-
-1. Push your code to GitHub
-
-2. Go to [Vercel](https://vercel.com) and sign in with GitHub
-
-3. Click "New Project" and import your repository
-
-4. Add environment variables in Vercel dashboard:
-   - `MONGODB_URI`
-   - `JWT_SECRET`
-   - `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
-   - `CLOUDINARY_API_KEY`
-   - `CLOUDINARY_API_SECRET`
-   - `NEXT_PUBLIC_APP_URL` (your Vercel deployment URL)
-
-5. Click "Deploy"
-
-6. After deployment, run the seed script:
-```bash
-# Set environment variables locally to point to production DB
-MONGODB_URI=your-production-mongodb-uri npm run seed
-```
+Deployment is at `https://cdc-web-dev-project.vercel.app/`
 
 ## 📁 Project Structure
 
